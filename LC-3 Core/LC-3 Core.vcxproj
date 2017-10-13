@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlUnit.cpp" />
-    <ClCompile Include="LC-3 Core.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="ProcessingUnit.cpp" />
     <ClCompile Include="stdafx.cpp">
