@@ -22,3 +22,8 @@ typedef int word;
 
 #define DEVICEREGISTER_ADDRESSES_START 0xFE00
 #define DEVICEREGISTER_ADDRESSES_END 0xFFFF
+#define KBSR 0xFE00
+#define KBDR 0xFE02
+#define DSR 0xFE04
+#define DDR 0xFE06
+#define MCR 0xFFFE

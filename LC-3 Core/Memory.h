@@ -18,4 +18,5 @@ private:
 	word MDR;
 	word MAR;
 	word memory[SPACE];
+	void BatchAssign(word start, word end, const word value[]);
 };

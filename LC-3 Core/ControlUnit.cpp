@@ -29,7 +29,7 @@ void ControlUnit::Execute() {
 	m.FetchMemory();
 	IR = m.GetMDR();
 
-	word instruction = p.Decode(IR, 12, 15);
+	word instruction = p.Decode(IR, 12, 15);                     //if opcode 1101 is encountered, initiate and illegal opcode exception
 }
 
 
@@ -128,7 +128,7 @@ void ControlUnit::RTI(word value) {
 		p.StoreRegister(6, 0, 2, p.Add(p.GetRegister(6, 0, 2), 1));
 		p.PSR = TEMP;						//the privilege mode and condition codes of the interrupted process are restored
 	}
-	else;					//Initiate a privilege mode exception;
+	else;									//Initiate a privilege mode exception;  Return PRIVILEGE MODE EXCEPTION;
 }
 
 void ControlUnit::ST(word value) {
