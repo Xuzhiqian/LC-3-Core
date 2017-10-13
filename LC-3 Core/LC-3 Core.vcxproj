@@ -144,6 +144,7 @@
     <ClInclude Include="ProcessingUnit.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TRAPService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlUnit.cpp" />

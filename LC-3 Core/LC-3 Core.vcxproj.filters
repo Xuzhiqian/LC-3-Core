@@ -36,6 +36,9 @@
     <ClInclude Include="LC-3 Specification.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TRAPService.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
