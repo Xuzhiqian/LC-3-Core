@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlUnit.h" />
+    <ClInclude Include="LC-3 Specification.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="ProcessingUnit.h" />
     <ClInclude Include="stdafx.h" />
