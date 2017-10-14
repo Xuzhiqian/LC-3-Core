@@ -18,28 +18,28 @@ const word TrapVectorTable[TRAPSERVICEROUTINE_END - TRAPSERVICEROUTINE_START + 1
 #define GETC_START  0x0400
 #define GETC_END 0x0407
 const word GetcSPEC[GETC_END - GETC_START + 1] = {
-													0x3E07,
-													0xA004,
-													0x07EE,
-													0xA003,
-													0x2E03,
-													0xC1C0,
-													0xFE00,
-													0xFE02 };
+													0x3E07,			//ST     R7, x0408    
+													0xA004,			//LDI    R0, x0406 
+													0x07EE,			//BRZP   x0401
+													0xA003,			//LDI    R0, x0407  
+													0x2E03,			//LD     R7, x0408 
+													0xC1C0,			//RET   
+													0xFE00,			//TRAP   x00            
+													0xFE02 };		//TRAP   x02
 
 #define OUT_START 0x0430
 #define OUT_END 0x0439
 const word OutSPEC[OUT_END - OUT_START + 1] = {
-												0x3E0A,
-												0x3208,
-												0xA205,
-												0x07FE,
-												0xB004,
-												0x2204,
-												0x2E04,
-												0xC1C0,
-												0xFE04,
-												0xFE06,
+												0x3E0A,				//ST     R7, x043B 
+												0x3208,				//ST     R1, x043A 
+												0xA205,				//LDI    R1, x0438  
+												0x07FE,				//BRZP   x0432 
+												0xB004,				//STI    R0, x0439 
+												0x2204,				//LD     R1, x043A 
+												0x2E04,				//LD     R7, x043B 
+												0xC1C0,				//RET   
+												0xFE04,				//TRAP   x04 
+												0xFE06,				//TRAP   x06  
 };
 
 #define PUTS_START 0x0450

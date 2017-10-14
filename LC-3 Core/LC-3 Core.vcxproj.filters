@@ -36,7 +36,7 @@
     <ClInclude Include="LC-3 Specification.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryInitialization.h">
+    <ClInclude Include="Kernal.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

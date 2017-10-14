@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Memory.h"
-#include "MemoryInitialization.h"
+#include "Kernal.h"
 
 void Memory::BatchAssign(word start, word end, const word value[]) {
 	for (int i = start; i <= end; i++)
