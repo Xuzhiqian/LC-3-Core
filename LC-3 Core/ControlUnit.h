@@ -7,9 +7,10 @@ public:
 	ControlUnit(ProcessingUnit *pointer_p, Memory *pointer_m);
 	~ControlUnit();
 	void Execute();
+	void SetPC(word value);
 private:
-	ProcessingUnit p;
-	Memory m;
+	ProcessingUnit *p;
+	Memory *m;
 	word PC;
 	word IR;
 	bool Bit(word value, int index);
@@ -30,5 +31,6 @@ private:
 	void STI(word value);
 	void STR(word value);
 	void TRAP(word value);
+	void EXCP(word value);
 };
 

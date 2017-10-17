@@ -5,7 +5,7 @@
 ProcessingUnit::ProcessingUnit()
 {
 	for (int i = 0; i < NUM_REGISTER; i++) R[i] = 0;
-	PSR = 0;
+	PSR = 0x8002;
 }
 
 
@@ -14,7 +14,7 @@ ProcessingUnit::~ProcessingUnit()
 }
 
 word ProcessingUnit::Decode(word X, int start, int end) {
-	if (end - start != REGISTER_ADDRESSABILITY - 1) return 0;
+	if (end - start < 0) return 0;
 	word temp = 0;
 	for (int i = start; i <= end; i++)
 		temp += 1 << i;

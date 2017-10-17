@@ -13,7 +13,7 @@ public:
 	void SetMAR(word value);
 	void FetchMemory();
 	void StoreMemory();
-	void Clear();
+	void ReInitialize();
 private:
 	word MDR;
 	word MAR;
