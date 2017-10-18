@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Memory.h"
+#include "conio.h"
 #include "Exception_routine.h"
 
 
@@ -65,12 +66,12 @@ void Memory::SetMAR(word value) {
 
 void Memory::FetchMemory() {
 	if (0 <= MAR && MAR < SPACE) {
-		MDR = memory[MAR];
 		if (MAR == KBSR) {
-			word c = 0;
-			scanf_s("%c", &c);
+			word c = _getch();
 			memory[KBDR] = c;
+			MDR = 0x8000;
 		}
+		else MDR = memory[MAR];
 	}
 	else
 		MDR = 0;
