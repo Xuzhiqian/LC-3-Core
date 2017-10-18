@@ -68,7 +68,7 @@ void Memory::FetchMemory() {
 		MDR = memory[MAR];
 		if (MAR == KBSR) {
 			word c = 0;
-			scanf_s("%c", c);
+			scanf_s("%c", &c);
 			memory[KBDR] = c;
 		}
 	}
