@@ -52,7 +52,7 @@ void Memory::ReInitialize() {
 		fread(&v, WORD_BYTES, 1, k);
 		memory[i] = v;
 	}
-	printf("%x", memory[0xfe04]);
+
 	BatchAssign(EXCP_ILLEGAL_START, EXCP_ILLEGAL_END, EXCP_SPEC);
 	BatchAssign(EXCP_PRIVILEGE_START, EXCP_PRIVILEGE_END, EXCP_PRIVILEGE_SPEC);
 

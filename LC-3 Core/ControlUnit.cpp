@@ -148,10 +148,10 @@ void ControlUnit::NOT(word value) {
 
 void ControlUnit::RTI(word value) {
 	if (Bit(p->PSR, 15) == 0) {
+		p->StoreRegister(6, 0, 2, p->Add(p->GetRegister(6, 0, 2), 1));
 		PC = m->Fetch(p->GetRegister(6, 0, 2));			//R6 is the SSP
 		p->StoreRegister(6, 0, 2, p->Add(p->GetRegister(6, 0, 2), 1));
 		word TEMP = m->Fetch(p->GetRegister(6, 0, 2));
-		p->StoreRegister(6, 0, 2, p->Add(p->GetRegister(6, 0, 2), 1));
 		p->PSR = TEMP;						//the privilege mode and condition codes of the interrupted process are restored
 	}
 	else EXCP(1);

@@ -12,29 +12,17 @@ int main()
 	ProcessingUnit p;
 	ControlUnit c(&p,&m);
 
-	char s[100];
-	gets_s(s, WORD_LENGTH + 1);
+	
+	word v, start;
 
-	word t = 0;
-	for (int i = WORD_LENGTH - 1; i >= 0; i--)
-		if (s[i] == '1')
-			t += 1 << (WORD_LENGTH-1-i);
-	word start = t;
-	int index = 0;
-
-	while (s[0] != '#') {
-		gets_s(s, WORD_LENGTH + 1);
-		if (s[0] != '#') {
-			t = 0;
-			for (int i = WORD_LENGTH - 1; i >= 0; i--)
-				if (s[i] == '1')
-					t += 1 << (WORD_LENGTH - 1 - i);
-			m.Store(start + index, t);
-			index++;
-		}
-	}
+	scanf_s("%x", &start);
 	c.SetPC(start);
+
+	while (scanf_s("%x",&v))
+		m.Store(start++,v);
+	
 	c.Execute();
+	system("pause");
     return 0;
 }
 
