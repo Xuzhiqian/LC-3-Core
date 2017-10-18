@@ -30,7 +30,7 @@ void ProcessingUnit::StoreRegister(word X, int start, int end, word value) {
 }
 
 word ProcessingUnit::And(word a, word b) {
-	return a&b;
+	return Decode(a & b, 0, WORD_LENGTH - 1);
 }
 
 word ProcessingUnit::Not(word a) {
@@ -38,16 +38,16 @@ word ProcessingUnit::Not(word a) {
 }
 
 word ProcessingUnit::Add(word a, word b) {
-	return a + b;
+	return Decode(a + b,0,WORD_LENGTH-1);
 }
 
 void ProcessingUnit::SetCC(word value) {
-	if ((value >> (WORD_LENGTH - 1)) % 2 == 1) {
+	if (Decode((value >> (WORD_LENGTH - 1)),0,WORD_LENGTH-1) % 2 == 1) {
 		PSR |= 4;									//PSR[2] is set since N=1
 		PSR &= (SPACE - 2);
 		PSR &= (SPACE - 1);
 	}
-	else if ((value & (SPACE - 1)) == 0) {
+	else if (Decode((value & (SPACE - 1)),0,WORD_LENGTH-1) == 0) {
 		PSR &= (SPACE - 4);
 		PSR |= 2;									//PSR[1] is set since Z=1
 		PSR &= (SPACE - 1);

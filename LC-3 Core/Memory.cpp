@@ -1,21 +1,16 @@
 #include "stdafx.h"
 #include "Memory.h"
-#include "Kernal.h"
+#include "Exception_routine.h"
 
+
+#define SPECIAL3 0x0100
+#define SPECIAL3_VALUE 0x1000
+#define SPECIAL4 0x0101
+#define SPECIAL_VALUE 0x1600 
 
 Memory::Memory()
 {
 	ReInitialize();
-
-
-	//BatchAssign(TRAPSERVICEROUTINE_START, TRAPSERVICEROUTINE_END, TrapVectorTable);
-	//BatchAssign(GETC_START, GETC_END, GetcSPEC);
-	//BatchAssign(OUT_START, OUT_END, OutSPEC);
-	//BatchAssign(PUTS_START, PUTS_END, PutsSPEC);
-	//BatchAssign(IN_START, IN_END, InSPEC);
-	//BatchAssign(PUTSP_START, PUTSP_END,PutspSPEC);
-	//BatchAssign(HALT_START, HALT_END, HALT_SPEC);
-	
 }
 
 
@@ -44,14 +39,24 @@ void  Memory::SetMDR(word value) {
 void Memory::ReInitialize() {
 	MAR = 0;
 	MDR = 0;
+
+	
+	FILE *k = fopen("kernal", "rb");
+	if (k == NULL) {
+		printf("Initialization Error! \n");
+		system("pause");
+		exit(0);
+	}
+	word v = 0;
+	for (word i = 0; i < SPACE; i++) {
+		fread(&v, WORD_BYTES, 1, k);
+		memory[i] = v;
+	}
+	printf("%x", memory[0xfe04]);
 	BatchAssign(EXCP_ILLEGAL_START, EXCP_ILLEGAL_END, EXCP_SPEC);
 	BatchAssign(EXCP_PRIVILEGE_START, EXCP_PRIVILEGE_END, EXCP_PRIVILEGE_SPEC);
 
-
-	memory[SPECIAL2] = SPECIAL2_VALUE;
-	memory[SPECIAL3] = SPECIAL3_VALUE;
-	memory[MCR] = 0xFFFF;
-
+	fclose(k);
 }
 
 void Memory::SetMAR(word value) {
@@ -59,8 +64,14 @@ void Memory::SetMAR(word value) {
 }
 
 void Memory::FetchMemory() {
-	if (0 <= MAR && MAR < SPACE)
+	if (0 <= MAR && MAR < SPACE) {
 		MDR = memory[MAR];
+		if (MAR == KBSR) {
+			word c = 0;
+			scanf_s("%c", c);
+			memory[KBDR] = c;
+		}
+	}
 	else
 		MDR = 0;
 }
@@ -72,4 +83,9 @@ void Memory::Store(word address, word value) {
 }
 void Memory::StoreMemory() {
 	memory[MAR] = MDR;
+
+	if (memory[DDR] != 0) {
+		printf("%c", memory[DDR]);
+		memory[DDR] = 0;
+	}
 }

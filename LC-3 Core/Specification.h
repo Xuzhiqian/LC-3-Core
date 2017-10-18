@@ -7,6 +7,7 @@ typedef int word;
 #define NUM_REGISTER 8
 #define REGISTER_ADDRESSABILITY 16
 #define ASCII_LENGTH 8
+#define WORD_BYTES 2
 
 
 #define TRAP_VECTORTABLE_START 0x0000

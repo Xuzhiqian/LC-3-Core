@@ -55,17 +55,6 @@ void ControlUnit::Execute() {
 			case 14:LEA(IR); break;
 			case 15:TRAP(IR); break;
 		}
-
-		if (Bit(m->Fetch(KBSR),15) == 1) {
-			int c = getchar();
-			m->Store(KBDR, c << (WORD_LENGTH-ASCII_LENGTH));
-			m->Store(KBSR, 0);
-		}
-
-		if (Bit(m->Fetch(DSR), 15) == 1) {
-			printf("%c", p->Decode(m->Fetch(DDR), 0, ASCII_LENGTH - 1));
-			m->Store(DSR, 0);
-		}
 	}
 }
 

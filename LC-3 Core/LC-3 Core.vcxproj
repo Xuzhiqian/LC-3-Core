@@ -139,12 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlUnit.h" />
-    <ClInclude Include="LC-3 Specification.h" />
+    <ClInclude Include="Specification.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="ProcessingUnit.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Kernal.h" />
+    <ClInclude Include="Exception_routine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlUnit.cpp" />
@@ -157,6 +157,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="kernal">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
+      <FileType>Document</FileType>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
