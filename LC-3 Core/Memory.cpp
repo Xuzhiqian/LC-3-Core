@@ -48,7 +48,7 @@ void Memory::ReInitialize() {
 		system("pause");
 		exit(0);
 	}
-	word v = 0;
+	word v=0;
 	for (word i = 0; i < SPACE; i++) {
 		fread(&v, WORD_BYTES, 1, k);
 		memory[i] = v;
@@ -84,8 +84,7 @@ void Memory::Store(word address, word value) {
 }
 void Memory::StoreMemory() {
 	memory[MAR] = MDR;
-
-	if (memory[DDR] != 0) {
+	if ((memory[DDR] & 0x00FF) != 0) {
 		printf("%c", memory[DDR]);
 		memory[DDR] = 0;
 	}

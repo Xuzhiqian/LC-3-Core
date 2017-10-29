@@ -6,7 +6,7 @@ class ControlUnit
 public:
 	ControlUnit(ProcessingUnit *pointer_p, Memory *pointer_m);
 	~ControlUnit();
-	void Execute();
+	void Process();
 	void SetPC(word value);
 private:
 	ProcessingUnit *p;
@@ -15,22 +15,16 @@ private:
 	word IR;
 	bool Bit(word value, int index);
 
-	//Instruction Set Definition
-	void ADD(word value);
-	void AND(word value);
-	void BR(word value);
-	void JMP(word value);
-	void JSR(word value);
-	void LD(word value);
-	void LDI(word value);
-	void LDR(word value);
-	void LEA(word value);
-	void NOT(word value);
-	void RTI(word value);
-	void ST(word value);
-	void STI(word value);
-	void STR(word value);
-	void TRAP(word value);
+	void Fetch();
+	word Decode();
+	word EvaluateAddress(word ins);
+	void FetchOperands(word ins,word address,word &sop1,word &sop2);
+	word Execute(word ins, word address,word sop1, word sop2);
+	void StoreResult(word ins, word address, word sop1, word sop2,word result);
+
 	void EXCP(word value);
+
+	word sop1;
+	word sop2;
 };
 

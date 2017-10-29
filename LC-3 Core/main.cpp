@@ -21,7 +21,7 @@ int main()
 	while (scanf_s("%x",&v))
 		m.Store(start++,v);
 	
-	c.Execute();
+	c.Process();
 	system("pause");
     return 0;
 }
