@@ -5,16 +5,18 @@
 #include "Memory.h"
 #include "ControlUnit.h"
 #include "ProcessingUnit.h"
+#include "Assembly.h"
 
 int main()
 {
 	Memory m;
 	ProcessingUnit p;
 	ControlUnit c(&p,&m);
+	Assembly a;
 
 	
 	word v, start;
-
+	/*
 	scanf_s("%x", &start);
 	c.SetPC(start);
 
@@ -22,7 +24,20 @@ int main()
 		m.Store(start++,v);
 	
 	c.Process();
-	system("pause");
+	*/
+
+	FILE *ass = fopen("1.asm", "r");
+	FILE *out = fopen("result.txt", "w");
+	if (ass != NULL)
+	{
+		a.Filter(ass);
+		fputs(a.buffer,out);
+	}
+	else printf("error!\n");
+	fclose(ass);
+	fclose(out);
+
+
     return 0;
 }
 

@@ -138,6 +138,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assembly.h" />
     <ClInclude Include="ControlUnit.h" />
     <ClInclude Include="Specification.h" />
     <ClInclude Include="Memory.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Exception_routine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Assembly.cpp" />
     <ClCompile Include="ControlUnit.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
