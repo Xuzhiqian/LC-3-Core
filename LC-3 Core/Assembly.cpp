@@ -23,17 +23,22 @@ Assembly::Assembly()
 	assembler.insert(pair<string, word>("LDR", 6));
 	assembler.insert(pair<string, word>("LEA", 14));
 	assembler.insert(pair<string, word>("NOT", 9));
-	assembler.insert(pair<string, word>("RET", 12));
-	assembler.insert(pair<string, word>("RTI", 8));
+	assembler.insert(pair<string, word>("RET", 12));			//no oprands
+	assembler.insert(pair<string, word>("RTI", 8));				//no oprands
 	assembler.insert(pair<string, word>("ST", 3));
 	assembler.insert(pair<string, word>("STI", 11));
 	assembler.insert(pair<string, word>("STR", 7));
 	assembler.insert(pair<string, word>("TRAP", 15));
+	assembler.insert(pair<string, word>(".ORIG", 20));
+	assembler.insert(pair<string, word>("HALT", 21));				//no oprands
+	assembler.insert(pair<string, word>(".FILL", 22));
+	assembler.insert(pair<string, word>(".BLKW", 23));
+	assembler.insert(pair<string, word>(".STRINGZ", 24));
 	symboltable.clear();
 	text.clear();
-	queue.clear();
-	table.clear();
-	target.clear();
+	raw = queue<string>();
+	table = queue<string[3]>();
+	target = queue<word>();
 
 	label="^[a-z_A-Z][a-z0-9A-Z_]*$";
 }
@@ -43,16 +48,19 @@ Assembly::~Assembly()
 {
 }
 
+string Assembly::upcase(string c) {
+	transform(c.begin(), c.end(), c.begin(), ::toupper);
+	return c;
+}
+
 int Assembly::match(int k,string c,bool IsCase) {
 	while (text.at(k) == ' '&&k < text.length()) k++;
 	if (IsCase)
 		if (text.find(c, k) != k) return 0;
 		else return 1;
-	else {
-		transform(c.begin(), c.end(), c.begin(), ::toupper);
-		if (utext.find(c, k) != k) return 0;
+	else
+		if (utext.find(upcase(c), k) != k) return 0;
 		else return 1;
-	}
 }
 
 word Assembly::parseNum(string c) {
@@ -82,29 +90,45 @@ void Assembly::Filter(FILE *p) {
 		text.append(1,temp);
 		temp = fgetc(p);
 	}
-	utext = text;
-	transform(utext.begin(), utext.end(), utext.begin(), ::toupper);
+	utext = upcase(text);
 }
 
 int Assembly::First() {
 	if (!match(0, ".ORIG", false)) return -1;
 	int end = utext.find(".END", 0);
 	if (end == string::npos) return -1;
-	text=text.substr(0, end);
+	text = text.substr(0, end);
 	utext = utext.substr(0, end);
 
 
-	int p = 0, q = 0;	
+	int p = 0, q = 0;
 	while (p < text.length())
 	{
 		q = text.find(' ', p);
 		if (q == string::npos) q = text.length();
 		if (p != q)
-			queue.insert(text.substr(p, q - p));
+			raw.push(text.substr(p, q - p));
 		p = q + 1;
 	}
 
+	string label,instr,oprand;
+	while (!raw.empty()) {
+		if (assembler.count(upcase(raw.front())) == 0) {
+			label = raw.front();
+			raw.pop();
+		}
+		else label = "";
 
+		instr = upcase(raw.front());
+		raw.pop();
+		if (instr == "HALT" || instr == "RTI" || instr == "RET")
+			oprand = "";
+		else {
+			oprand = upcase(raw.front());
+			raw.pop();
+		}
+		table.push({ label,instr,oprand });
+	}
 	return 0;
 }
 
