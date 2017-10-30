@@ -6,6 +6,8 @@
 #include "ControlUnit.h"
 #include "ProcessingUnit.h"
 #include "Assembly.h"
+#include <iostream>
+using namespace std;
 
 int main()
 {
@@ -14,9 +16,8 @@ int main()
 	ControlUnit c(&p,&m);
 	Assembly a;
 
-	
-	word v, start;
 	/*
+	word v, start;
 	scanf_s("%x", &start);
 	c.SetPC(start);
 
@@ -26,18 +27,13 @@ int main()
 	c.Process();
 	*/
 
+
 	FILE *ass = fopen("1.asm", "r");
-	FILE *out = fopen("result.txt", "w");
-	if (ass != NULL)
-	{
-		a.Filter(ass);
-		fputs(a.buffer,out);
-	}
-	else printf("error!\n");
+	a.Filter(ass);
 	fclose(ass);
-	fclose(out);
 
 
+	system("pause");
     return 0;
 }
 

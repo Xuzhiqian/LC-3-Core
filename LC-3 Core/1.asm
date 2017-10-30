@@ -2,7 +2,7 @@
 ; Ма3programv fse fsue fes.
 ;;; ; ;    ;
 
-.ORIG x3050;567567
+.orIGg x3050;567567
 	LD    R1,SIX	;;
 
             
@@ -11,5 +11,7 @@
 
 NUMBER   .BLKW		1;
 
-;
-.END;    ;  
+;;    ;  
+jfurhufrxzq.endfjijijiesdjijawdjaiw
+
+d;sa;d
