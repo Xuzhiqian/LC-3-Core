@@ -31,7 +31,9 @@ Assembly::Assembly()
 	assembler.insert(pair<string, word>("TRAP", 15));
 	symboltable.clear();
 	text.clear();
-	num = 0;
+	queue.clear();
+	table.clear();
+	target.clear();
 
 	label="^[a-z_A-Z][a-z0-9A-Z_]*$";
 }
@@ -92,27 +94,17 @@ int Assembly::First() {
 	utext = utext.substr(0, end);
 
 
-	int p = 0, q = 0, tag = 0;
-	num = 0;
-	string temp;
-	
+	int p = 0, q = 0;	
 	while (p < text.length())
 	{
 		q = text.find(' ', p);
 		if (q == string::npos) q = text.length();
-		if (p != q) {
-			temp = text.substr(p, q - p);
-			if (tag == 0) {
-				if (assembler.find(temp) == assembler.end())
-				{
-					if (symboltable.find(temp) != symboltable.end())
-						symboltable.insert(pair<string, word>(temp, num + 5));
-				}
-			}
-		}
-		tag = (tag + 1) % 3;
+		if (p != q)
+			queue.insert(text.substr(p, q - p));
 		p = q + 1;
 	}
+
+
 	return 0;
 }
 

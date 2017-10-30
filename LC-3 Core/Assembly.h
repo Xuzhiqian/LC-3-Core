@@ -3,6 +3,7 @@
 #include <regex>
 #include <string>
 #include <map>
+#include <set>
 using namespace std;
 
 class Assembly
@@ -11,7 +12,7 @@ public:
 	Assembly();
 	~Assembly();
 	void Assemble(FILE *p);
-	word target[ASSEMBLY_MAXROWS];
+	set<word> target;
 
 	
 	void Filter(FILE *p);
@@ -23,8 +24,8 @@ public:
 	map<string, word> assembler;
 	map<string, word> symboltable;
 	string text,utext;
-	string table[ASSEMBLY_MAXROWS][3];
-	int num;
+	set<string> queue;
+	set<string[3]> table;
 
 	regex label;
 private:
