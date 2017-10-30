@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <queue>
+#define ERROR -1
 using namespace std;
 
 class Assembly
@@ -26,9 +27,16 @@ public:
 	map<string, word> symboltable;
 	string text,utext;
 	queue<string> raw;
-	queue<string[3]> table;
+	struct line {
+		string label;
+		string instr;
+		string oprnd;
+	};
+	queue<line> table;
 
 	regex label;
+	regex number_hex;
+	regex number_dec;
 private:
 	
 	

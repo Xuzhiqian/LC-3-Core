@@ -37,10 +37,12 @@ Assembly::Assembly()
 	symboltable.clear();
 	text.clear();
 	raw = queue<string>();
-	table = queue<string[3]>();
+	table = queue<line>();
 	target = queue<word>();
 
 	label="^[a-z_A-Z][a-z0-9A-Z_]*$";
+	number_hex = "^0?[xX]-?[0-9AaBbCcDdEeFf]{1,4}$";
+	number_dec = "^#?-?[0-9]{1,5}$";
 }
 
 
@@ -65,10 +67,22 @@ int Assembly::match(int k,string c,bool IsCase) {
 
 word Assembly::parseNum(string c) {
 	word r=0;
-	if ((c.find('x', 0) != string::npos) || (c.find('X', 0) != string::npos))
+	if (regex_match(c,number_hex))
+	{
+		bool IsNeg = false;
+		if (c.at(0) != '0') c = '0' + c;
+		if (c.find('-', 0) != string::npos) {
+			c.erase(c.find('-', 0), 1);
+			IsNeg = true;
+		}
 		sscanf(c.c_str(), "%x", &r);
-	else
+		if (IsNeg) r = -r;
+	}
+	else if (regex_match(c, number_dec)) {
+		if (c.at(0) == '#') c.erase(0, 1);
 		sscanf(c.c_str(), "%d", &r);
+	}
+	else return ERROR;
 	return r;
 }
 void Assembly::Assemble(FILE *p) {
@@ -111,24 +125,37 @@ int Assembly::First() {
 		p = q + 1;
 	}
 
-	string label,instr,oprand;
+	line s;
 	while (!raw.empty()) {
 		if (assembler.count(upcase(raw.front())) == 0) {
-			label = raw.front();
+			s.label = raw.front();
+			if (!regex_match(s.label, label))
+				return ERROR;
 			raw.pop();
 		}
-		else label = "";
+		else s.label = "";
 
-		instr = upcase(raw.front());
-		raw.pop();
-		if (instr == "HALT" || instr == "RTI" || instr == "RET")
-			oprand = "";
-		else {
-			oprand = upcase(raw.front());
+		if (!raw.empty()) {
+			s.instr = upcase(raw.front());
 			raw.pop();
 		}
-		table.push({ label,instr,oprand });
+		else
+			s.instr = "";
+
+		if (s.instr == "HALT" || s.instr == "RTI" || s.instr == "RET")
+			s.oprnd = "";
+		else
+			if (!raw.empty()) {
+				s.oprnd = upcase(raw.front());
+				raw.pop();
+			}
+			else s.oprnd = "";
+			table.push(s);
 	}
+
+	word LC = parseNum(table.front().oprnd);
+	if (LC < 0 || LC>SPACE) return ERROR;
+
 	return 0;
 }
 

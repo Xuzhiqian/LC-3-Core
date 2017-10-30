@@ -32,7 +32,6 @@ int main()
 	a.Filter(ass);
 	fclose(ass);
 
-
 	system("pause");
     return 0;
 }

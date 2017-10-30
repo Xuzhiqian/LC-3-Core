@@ -3,7 +3,7 @@
 typedef int word;
 
 #define WORD_LENGTH 16
-#define SPACE 65536
+#define SPACE 0xFFFF
 #define NUM_REGISTER 8
 #define REGISTER_ADDRESSABILITY 16
 #define ASCII_LENGTH 8

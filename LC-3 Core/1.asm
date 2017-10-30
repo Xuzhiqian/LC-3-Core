@@ -2,7 +2,7 @@
 ; Ма3programv fse fsue fes.
 ;;; ; ;    ;
 
-.orIGg x3050;567567
+.orIg 0x-0;567567
 	LD    R1,SIX	;;
 
             
