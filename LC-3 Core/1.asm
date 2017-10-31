@@ -1,17 +1,9 @@
-;
-; Ма3programv fse fsue fes.
-;;; ; ;    ;
+.orig x0000
+w ADD R1,R1,R2
+.blkw #2
 
-.orIg 0x-0;567567
-	LD    R1,SIX	;;
-
-            
-
-;The Inner; loop
-
-NUMBER   .BLKW		1;
-
-;;    ;  
-jfurhufrxzq.endfjijijiesdjijawdjaiw
-
-d;sa;d
+r RTI
+string .stringz "233"
+;ty LD 333
+fuck RET;
+.end

@@ -37,6 +37,9 @@ public:
 	regex label;
 	regex number_hex;
 	regex number_dec;
+	regex stringz;
+	regex br;
+	map<string, regex> syntax;
 private:
 	
 	
