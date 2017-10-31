@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Assembly.h"
+#define SPECIALINS -1
 
 #define cmt ';'
 #define sp ' '
@@ -18,34 +19,32 @@ Assembly::Assembly()
 	br = "^BRN?Z?P?$";
 
 	assembler.clear();
-	assembler.insert(pair<string, word>("ADD", 1));		syntax.insert(pair<string,regex>("ADD", "^R[0-7],R[0-7],(R[0-7]|0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
-	assembler.insert(pair<string, word>("AND", 5));		syntax.insert(pair<string, regex>("ADD", "^R[0-7],R[0-7],(R[0-7]|0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
-	assembler.insert(pair<string, word>("BR", 0));		syntax.insert(pair<string, regex>("ADD", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}$"));
-	assembler.insert(pair<string, word>("JMP", 12));	syntax.insert(pair<string, regex>("ADD", "^R[0-7]$"));
-	assembler.insert(pair<string, word>("JSR", 4));		syntax.insert(pair<string, regex>("ADD", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,4}$"));
-	assembler.insert(pair<string, word>("JSRR", 4));	syntax.insert(pair<string, regex>("ADD", "^R[0-7]$"));
-	assembler.insert(pair<string, word>("LD", 2));		syntax.insert(pair<string, regex>("ADD", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,4}$"));
-	assembler.insert(pair<string, word>("LDI", 10));	syntax.insert(pair<string, regex>("ADD", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,4}$"));
-	assembler.insert(pair<string, word>("LDR", 6));		syntax.insert(pair<string, regex>("ADD", "^R[0-7],R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
-	assembler.insert(pair<string, word>("LEA", 14));	syntax.insert(pair<string, regex>("ADD", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3})$"));
-	assembler.insert(pair<string, word>("NOT", 9));		syntax.insert(pair<string, regex>("ADD", "^R[0-7],R[0-7]$"));
-	assembler.insert(pair<string, word>("RET", 12));			//no oprands
-	assembler.insert(pair<string, word>("RTI", 8));				//no oprands
-	assembler.insert(pair<string, word>("ST", 3));		syntax.insert(pair<string, regex>("ADD", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3})$"));
-	assembler.insert(pair<string, word>("STI", 11));	syntax.insert(pair<string, regex>("ADD", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3})$"));
-	assembler.insert(pair<string, word>("STR", 7));		syntax.insert(pair<string, regex>("ADD", "^R[0-7],R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
-	assembler.insert(pair<string, word>("TRAP", 15));	syntax.insert(pair<string, regex>("ADD", "^0?[xX]0*[0-9AaBbCcDdEeFf]{1,2}|#?0*[0-9]{1,3}$"));
-	assembler.insert(pair<string, word>("HALT", 21));				//no oprands
-	assembler.insert(pair<string, word>(".FILL", 22));	syntax.insert(pair<string, regex>("ADD", "0?[xX]0*[0-9AaBbCcDdEeFf]{1,4}|#?0*[0-9]{1,5}"));
-	assembler.insert(pair<string, word>(".BLKW", 23));
-	assembler.insert(pair<string, word>(".STRINGZ", 24));
+	assembler.insert(pair<string, word>("ADD", 0x1000));		syntax.insert(pair<string,regex>("ADD", "^R[0-7],R[0-7],(R[0-7]|0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
+	assembler.insert(pair<string, word>("AND", 0x5000));		syntax.insert(pair<string, regex>("AND", "^R[0-7],R[0-7],(R[0-7]|0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
+	assembler.insert(pair<string, word>("BR", 0x0000));		syntax.insert(pair<string, regex>("BR", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*$"));
+	assembler.insert(pair<string, word>("JMP", 0xC000));	syntax.insert(pair<string, regex>("JMP", "^R[0-7]$"));
+	assembler.insert(pair<string, word>("JSR", 0x4000));		syntax.insert(pair<string, regex>("JSR", "^0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,4}|[a-z_A-Z][a-z0-9A-Z_]*$"));
+	assembler.insert(pair<string, word>("JSRR", 0x4000));	syntax.insert(pair<string, regex>("JSRR", "^R[0-7]$"));
+	assembler.insert(pair<string, word>("LD", 0x2000));		syntax.insert(pair<string, regex>("LD", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*)$"));
+	assembler.insert(pair<string, word>("LDI", 0xA000));	syntax.insert(pair<string, regex>("LDI", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*)$"));
+	assembler.insert(pair<string, word>("LDR", 0x6000));		syntax.insert(pair<string, regex>("LDR", "^R[0-7],R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
+	assembler.insert(pair<string, word>("LEA", 0xE000));	syntax.insert(pair<string, regex>("LEA", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*)$"));
+	assembler.insert(pair<string, word>("NOT", 0x9000));		syntax.insert(pair<string, regex>("NOT", "^R[0-7],R[0-7]$"));
+	assembler.insert(pair<string, word>("RET", 0xC1C0));			//no oprands
+	assembler.insert(pair<string, word>("RTI", 0x8000));				//no oprands
+	assembler.insert(pair<string, word>("ST", 0x3000));		syntax.insert(pair<string, regex>("ST", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*)$"));
+	assembler.insert(pair<string, word>("STI", 0xB000));	syntax.insert(pair<string, regex>("STI", "^R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,3}|#?-?0*[0-9]{1,3}|[a-z_A-Z][a-z0-9A-Z_]*)$"));
+	assembler.insert(pair<string, word>("STR", 0x7000));		syntax.insert(pair<string, regex>("STR", "^R[0-7],R[0-7],(0?[xX]-?0*[0-9AaBbCcDdEeFf]{1,2}|#?-?0*[0-9]{1,2})$"));
+	assembler.insert(pair<string, word>("TRAP", 0xF000));	syntax.insert(pair<string, regex>("TRAP", "^0?[xX]0*[0-9AaBbCcDdEeFf]{1,2}|#?0*[0-9]{1,3}$"));
+	assembler.insert(pair<string, word>("HALT", 0xF025));				//no oprands
+	assembler.insert(pair<string, word>(".FILL", SPECIALINS));	syntax.insert(pair<string, regex>(".FILL", "0?[xX]0*[0-9AaBbCcDdEeFf]{1,4}|#?0*[0-9]{1,5}"));
+	assembler.insert(pair<string, word>(".BLKW", SPECIALINS));
+	assembler.insert(pair<string, word>(".STRINGZ", SPECIALINS));
 	symboltable.clear();
 	text.clear();
+	target.clear();
 	raw = queue<string>();
 	table = queue<line>();
-	target = queue<word>();
-
-	
 }
 
 
@@ -183,9 +182,46 @@ int Assembly::First() {
 				else return ERROR;
 			else LC++;
 	}
-	return 0;
+	return FA;
 }
 
-int Assembly::Second() {
+int Assembly::Second(int PC) {
+	map<string, regex>::iterator it;
+	word CUR = 0;
+	string instr, oprnd;
+	while (!table.empty()) {
+		CUR = PC++;
+		instr = table.front().instr;
+		oprnd = table.front().oprnd;
+
+		it = syntax.find(instr);
+		if (it != syntax.end()) {
+			if (regex_match(oprnd, it->second)) {
+
+			}
+			else return ERROR;
+		}
+		else {
+			word temp = assembler.find(instr)->second;
+			if (temp != SPECIALINS)
+				target.insert(pair<word, word>(CUR, temp));
+			else {													//.BLKW / .STRINGZ
+				if (instr == ".BLKW") {
+					int blocks = parseNum(oprnd);
+					for (int i = 0; i < blocks; i++) {
+						target.insert(pair<word, word>(CUR, 0));
+						CUR = PC++;
+					}
+				}
+				if (instr == ".STRINGZ") {
+					for (int i = 0; i < oprnd.length(); i++) {
+						target.insert(pair<word, word>(CUR, oprnd.at(i)));
+						CUR = PC++;
+					}
+				}
+			}
+		}
+
+	}
 	return 0;
 }

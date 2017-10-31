@@ -13,12 +13,12 @@ public:
 	Assembly();
 	~Assembly();
 	void Assemble(FILE *p);
-	queue<word> target;
+	map<word,word> target;
 
 	
 	void Filter(FILE *p);
 	int First();
-	int Second();
+	int Second(int FA);
 	word parseNum(string c);
 	string upcase(string c);
 	int match(int k,string c,bool IsCase);
