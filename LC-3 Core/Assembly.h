@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <queue>
-#define ERROR -1
+#define ERROR -0x1ffff
 using namespace std;
 
 class Assembly
@@ -12,7 +12,7 @@ class Assembly
 public:
 	Assembly();
 	~Assembly();
-	void Assemble(FILE *p);
+	bool Assemble(FILE *p);
 	map<word,word> target;
 
 	
@@ -20,9 +20,13 @@ public:
 	int First();
 	int Second(int FA);
 	word parseNum(string c);
+	int parseReg(string &c);
+	word parseOffset(string op, word PC, int width);
+	word replaceLabel(word PC, string op,int width);
+	word complement(int w, word n);
 	string upcase(string c);
 	int match(int k,string c,bool IsCase);
-	
+
 	map<string, word> assembler;
 	map<string, word> symboltable;
 	string text,utext;
@@ -37,9 +41,12 @@ public:
 	regex label;
 	regex number_hex;
 	regex number_dec;
+	regex number;
 	regex stringz;
 	regex br;
 	map<string, regex> syntax;
+
+	word Translate(word ins, string instr,string op,word PC);
 private:
 	
 	

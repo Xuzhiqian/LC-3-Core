@@ -30,14 +30,16 @@ int main()
 
 
 	FILE *ass = fopen("1.asm", "r");
-	a.Filter(ass);
+	a.Assemble(ass);
 	fclose(ass);
 	/*
 	a.First();
 	for (map<string, int>::iterator it = a.symboltable.begin(); it != a.symboltable.end(); ++it)
 		cout << it->first << "		"<<it->second << endl;
 		*/
-	printf("%d\n", regex_match("#-00000344988", a.number_dec));
+
+	for (map<word, word>::iterator it = a.target.begin(); it != a.target.end(); ++it)
+		printf("%x	%x\n", it->first, it->second);
 	system("pause");
     return 0;
 }
