@@ -30,7 +30,7 @@ int main()
 
 
 	FILE *ass = fopen("1.asm", "r");
-	a.Assemble(ass);
+	c.SetPC(a.Assemble(ass));
 	fclose(ass);
 	/*
 	a.First();
@@ -39,7 +39,9 @@ int main()
 		*/
 
 	for (map<word, word>::iterator it = a.target.begin(); it != a.target.end(); ++it)
-		printf("%x	%x\n", it->first, it->second);
+		m.LoadProgramPiece(it->first, it->second);
+	
+	c.Process();
 	system("pause");
     return 0;
 }

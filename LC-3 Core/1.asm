@@ -1,14 +1,6 @@
-.ORIG x3050
-_o93 LD R1,SIX
-LD R2,NUMBER
-AND R3,R3,#0
-AGAIN ADD R3,R3,R2
-ADD R1,R1,#-1
-BRP AGAIN
-Halt
-
-LD R1,_o93
-
-NUMBER .fill x2
-SIX .fill x0006
+.ORIG x3000
+LEA R0,ss
+trap x22
+ss .stringz "xzq"
+halt
 .end

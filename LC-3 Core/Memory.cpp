@@ -49,7 +49,7 @@ void Memory::ReInitialize() {
 		exit(0);
 	}
 	word v=0;
-	for (word i = 0; i < SPACE; i++) {
+	for (word i = 0; i <= SPACE; i++) {
 		fread(&v, WORD_BYTES, 1, k);
 		memory[i] = v;
 	}
@@ -59,13 +59,15 @@ void Memory::ReInitialize() {
 
 	fclose(k);
 }
-
+void Memory::LoadProgramPiece(word address,word value) {
+	memory[address] = value;
+}
 void Memory::SetMAR(word value) {
 	MAR = value;
 }
 
 void Memory::FetchMemory() {
-	if (0 <= MAR && MAR < SPACE) {
+	if (0 <= MAR && MAR <= SPACE) {
 		if (MAR == KBSR) {
 			word c = _getch();
 			memory[KBDR] = c;

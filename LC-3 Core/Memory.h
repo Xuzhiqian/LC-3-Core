@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include <map>
 class Memory
 {
 public:
@@ -14,9 +15,10 @@ public:
 	void FetchMemory();
 	void StoreMemory();
 	void ReInitialize();
+	void LoadProgramPiece(word address,word value);
 private:
 	word MDR;
 	word MAR;
-	word memory[SPACE];
+	word memory[SPACE+1];
 	void BatchAssign(word start, word end, const word value[]);
 };
