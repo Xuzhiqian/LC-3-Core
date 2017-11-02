@@ -4,6 +4,8 @@
 
 #define cmt ';'
 #define sp ' '
+#define sp_r 7
+#define strsign '"'
 #define IsSp(x) (((x)==32)||((x)==9))
 #define IsRe(x) (((x)==10)||((x)==13))
 #define IsR(x) ((IsSp(x))||(IsRe(x)))
@@ -63,6 +65,7 @@ string Assembly::upcase(string c) {
 }
 
 int Assembly::match(int k,string c,bool IsCase) {
+	if (text.length() <= 0) return 0;
 	while (text.at(k) == ' '&&k < text.length()) k++;
 	if (IsCase)
 		if (text.find(c, k) != k) return 0;
@@ -128,6 +131,7 @@ word Assembly::parseNum(string c) {
 	return r;
 }
 word Assembly::Assemble(FILE *p) {
+	Initialize();
 	Filter(p);
 	word PC;
 	int start = First();
@@ -153,6 +157,15 @@ void Assembly::Filter(FILE *p) {
 			else
 				while (!feof(p) && IsR(temp)) temp = fgetc(p);
 			if (!(IsR(temp) || temp == cmt)) text.append(1,sp);
+		}
+		if (temp == strsign) {
+			text.append(1,temp);
+			temp = fgetc(p);
+			while (temp != strsign && !feof(p) && !IsRe(temp)) {
+				if (temp == sp) temp = sp_r;
+				text.append(1, temp);
+				temp = fgetc(p);
+			}
 		}
 		text.append(1,temp);
 		temp = fgetc(p);
@@ -275,7 +288,9 @@ int Assembly::Second(int PC) {
 				if (instr == ".STRINGZ") {
 					oprnd = oprnd.substr(1, oprnd.length() - 2);
 					for (int i = 0; i < oprnd.length(); i++) {
-						target.insert(pair<word, word>(CUR, oprnd.at(i)));
+						char c = oprnd.at(i) == sp_r ? sp : oprnd.at(i);		//spaces recover
+						word cc = c & 0xff;										//unicode standard
+						target.insert(pair<word, word>(CUR, cc));
 						CUR = PC++;
 					}
 					target.insert(pair<word, word>(CUR, 0));

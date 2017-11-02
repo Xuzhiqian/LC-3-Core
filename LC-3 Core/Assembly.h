@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <queue>
-#define ERROR -0x1ffff
+#define ERROR 0x1ffff
 using namespace std;
 
 class Assembly

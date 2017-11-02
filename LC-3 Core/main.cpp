@@ -30,18 +30,16 @@ int main()
 
 
 	FILE *ass = fopen("1.asm", "r");
-	c.SetPC(a.Assemble(ass));
-	fclose(ass);
-	/*
-	a.First();
-	for (map<string, int>::iterator it = a.symboltable.begin(); it != a.symboltable.end(); ++it)
-		cout << it->first << "		"<<it->second << endl;
-		*/
-
-	for (map<word, word>::iterator it = a.target.begin(); it != a.target.end(); ++it)
-		m.LoadProgramPiece(it->first, it->second);
-	
-	c.Process();
+	word start = a.Assemble(ass);
+	if (start == ERROR) printf("Compile Error!\n");
+	else {
+		c.SetPC(start);
+		fclose(ass);
+		for (map<word, word>::iterator it = a.target.begin(); it != a.target.end(); ++it)
+			m.LoadProgramPiece(it->first, it->second);
+			//printf("%x     %x\n", it->first, it->second);
+		c.Process();
+	}
 	system("pause");
     return 0;
 }
