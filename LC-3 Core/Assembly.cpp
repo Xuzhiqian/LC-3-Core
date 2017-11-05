@@ -6,6 +6,7 @@
 #define sp ' '
 #define sp_r 7
 #define strsign '"'
+#define com ','
 #define IsSp(x) (((x)==32)||((x)==9))
 #define IsRe(x) (((x)==10)||((x)==13))
 #define IsR(x) ((IsSp(x))||(IsRe(x)))
@@ -230,6 +231,10 @@ int Assembly::First() {
 			if (!raw.empty()) {
 				s.oprnd = raw.front();
 				raw.pop();
+				while (!raw.empty() && ((s.oprnd.find(com) == s.oprnd.length() - 1) || (raw.front().find(com) == 0))) {
+					s.oprnd = s.oprnd + raw.front();
+					raw.pop();
+				}
 			}
 			else s.oprnd = "";
 			table.push(s);
