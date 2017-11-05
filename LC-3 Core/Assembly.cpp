@@ -134,7 +134,6 @@ word Assembly::parseNum(string c) {
 word Assembly::Assemble(FILE *p) {
 	Initialize();
 	Filter(p);
-	word PC;
 	int start = First();
 	if (start == ERROR) {
 		target.clear();

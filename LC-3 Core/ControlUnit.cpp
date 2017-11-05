@@ -24,7 +24,7 @@ bool ControlUnit::Bit(word value, int index) {
 }
 
 void ControlUnit::SetPC(word value) {
-	PC = value;
+	PC = value & SPACE;
 }
 
 void ControlUnit::Fetch() {

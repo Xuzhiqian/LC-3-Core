@@ -13,9 +13,8 @@ public:
 	Assembly();
 	~Assembly();
 	word Assemble(FILE *p);
-	map<word,word> target;
-
-	
+	map<word,word> target;	
+private:
 	void Filter(FILE *p);
 	void Initialize();
 	int First();
@@ -48,8 +47,6 @@ public:
 	map<string, regex> syntax;
 
 	word Translate(word ins, string instr,string op,word PC);
-private:
-	
 	
 	
 };

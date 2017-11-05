@@ -1,6 +1,7 @@
 #pragma once
 
 typedef int word;
+const int SIZE = 2 * sizeof(unsigned char);
 
 #define WORD_LENGTH 16
 #define SPACE 0xFFFF
